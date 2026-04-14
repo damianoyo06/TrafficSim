@@ -1,12 +1,11 @@
 #include <iostream>
+#include "Simulation.h"
 
 int main() {
-    std::cout << "Traffic Simulation starting...\n";
+    Simulation sim;
 
-    
-    while (true) {
-        // simulation loop will go here later
-    }
+std::cout << "Starting  new simulation...\n";
 
+    sim.run();
     return 0;
 }
