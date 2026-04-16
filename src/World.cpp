@@ -3,34 +3,37 @@
 #include <iostream>
 
 World::World() {
-    initGrid();
+    initMap();
 }
 
-void World::initGrid() {
-    grid = std::vector<std::vector<int>>(
-        height,
-        std::vector<int>(width, 0)
-    );
-}
+void World::initMap() {
+    map = std::vector<std::vector<char>>(height, 
+        std::vector<char>(width, 'E'));
 
-void World::printGrid(const std::vector<Car>& cars) {
-    for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-
-            bool hasCar = false;
-
-            for (const auto& car : cars) {
-                if (car.getX() == x && car.getY() == y) {
-                    std::cout << "C";
-                    hasCar = true;
-                    break;
-                }
-            }
-
-            if (!hasCar) {
-                std::cout << ".";
-            }
+        for(int x = 0; x <18; x++){
+            map[5][x] = '-';
         }
-        std::cout << "\n";
+
+        for(int y = 0; y < 8; y++){
+            map[y][10] = '|';
+        }
+
+        map[5][10] = '+';
+
+}
+
+void World::printMap(const std::vector<Car>& cars) {
+
+    auto render = map; //copy the map
+
+    for(const auto& car : cars) {
+        render[car.getY()][car.getX()] = 'C';
+    }
+
+    for(int y = 0; y<height; y++){
+        for(int x = 0; x<width; x++){
+            std::cout << render[y][x];
+        }
+        std::cout << std::endl;
     }
 }

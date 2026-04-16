@@ -1,14 +1,14 @@
-#pragma once
+ #pragma once
 
-class Car{
+class World;
+class Car {
 public:
     Car(int StartX, int StartY);
-     
-    void update();
+    void update(const World& world);
 
     int getX() const;
     int getY() const;
 private:
-    int x;
-    int y;
+    int x, y;
+    int dx, dy;
 };
