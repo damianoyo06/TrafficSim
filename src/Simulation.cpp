@@ -8,7 +8,7 @@ void Simulation::run()
 {
 
     // create cars before loop
-    cars.emplace_back(0, 5);
+    cars.emplace_back(1, 5);
 
    
     while (true)
@@ -21,7 +21,7 @@ void Simulation::run()
         // Render
         world.printMap(cars);
 
-        // Slow down so you can see it
+
         std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
     }

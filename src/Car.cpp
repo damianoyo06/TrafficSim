@@ -1,5 +1,6 @@
  #include "Car.h"
  #include "World.h"
+#include <iostream>
 
 Car::Car(int startX, int startY) 
 : x(startX), y(startY), dx(1), dy(0) {}
@@ -20,6 +21,20 @@ void Car::update(const World& world) {
         dx = -dx;
         dy = -dy;
     } 
+
+    if(nextTile == '+') {
+          std::swap(dx, dy); //turn right
+        //randomly decide to turn at the intersection
+        if(rand() % 2 == 0) {
+          
+            dx = -dx; //turn right
+        } else {
+          //  std::swap(dx, dy);
+         //   dx = -dx; //turn left
+            dy = -dy; //turn left
+        }
+       
+    }
     
     
     

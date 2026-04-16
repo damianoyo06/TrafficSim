@@ -10,15 +10,34 @@ void World::initMap() {
     map = std::vector<std::vector<char>>(height, 
         std::vector<char>(width, 'E'));
 
-        for(int x = 0; x <18; x++){
+        for(int x = 1; x <width-1; x++){
             map[5][x] = '-';
         }
 
-        for(int y = 0; y < 8; y++){
+        for(int x=5; x<16; x++){
+            map[2][x] = '-';
+            map[7][x] = '-';
+        }
+
+      for(int y  = 2; y<7; y++){
+            map[y][5] = '|';
+            map[y][15] = '|';
+        }
+
+
+        for(int y = 1; y < height-1; y++){
             map[y][10] = '|';
         }
 
         map[5][10] = '+';
+        map[2][10] = '+';
+        map[7][10] = '+';
+        map[5][5] = '+';
+        map[5][15] = '+';
+        map[2][5] = '+';
+        map[2][15] = '+';
+        map[7][5] = '+';
+        map[7][15] = '+';
 
 }
 
