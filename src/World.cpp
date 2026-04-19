@@ -10,36 +10,51 @@ void World::initMap() {
     map = std::vector<std::vector<char>>(height, 
         std::vector<char>(width, 'E'));
 
+        int midX = width/2;
+        int midY = height/2;
+
+        int left = width/5;
+        int right = width/5*4;
+
+        int top = height/4;
+        int bottom = 3*height/4;
+
         for(int x = 1; x <width-1; x++){
-            map[5][x] = '-';
+            map[midY][x] = '-';
         }
 
-        for(int x=5; x<16; x++){
-            map[2][x] = '-';
-            map[7][x] = '-';
+        for(int x=width/5; x<width/5*4; x++){
+            map[top][x] = '-';
+            map[bottom][x] = '-';
         }
 
-      for(int y  = 2; y<7; y++){
-            map[y][5] = '|';
-            map[y][15] = '|';
+      for(int y  = height/4; y<3*height/4; y++){
+            map[y][left] = '|';
+            map[y][right] = '|';
         }
 
 
         for(int y = 1; y < height-1; y++){
-            map[y][10] = '|';
+            map[y][midX] = '|';
         }
 
-        map[5][10] = '+';
-        map[2][10] = '+';
-        map[7][10] = '+';
-        map[5][5] = '+';
-        map[5][15] = '+';
-        map[2][5] = '+';
-        map[2][15] = '+';
-        map[7][5] = '+';
-        map[7][15] = '+';
+        map[midY][midX] = '+';
+        map[top][midX] = '+';
+        map[bottom][midX] = '+';
+        map[top][left] = '+';
+        map[top][right] = '+';
+        map[bottom][left] = '+';
+        map[bottom][right] = '+';
+        map[midY][left] = '+';
+        map[midY][right] = '+';
+
+       
 
 }
+
+ std::pair<int, int> World::getCenter() const {
+            return {width/2, height/2};
+        }
 
 void World::printMap(const std::vector<Car>& cars) {
 

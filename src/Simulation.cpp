@@ -8,7 +8,8 @@ void Simulation::run()
 {
 
     // create cars before loop
-    cars.emplace_back(1, 5);
+    auto [x, y] = world.getCenter();
+    cars.emplace_back(x, y);
 
    
     while (true)
