@@ -8,7 +8,11 @@ public:
 
     int getX() const;
     int getY() const;
+    int getTargetX() const;
+    int getTargetY() const;
 private:
     int x, y;
     int dx, dy;
+
+    int targetX, targetY;
 };

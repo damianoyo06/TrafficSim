@@ -5,8 +5,9 @@
 class World {
 public:
     int width = 20;
-    int height = 20;
-    std::vector<std::vector<char>> map;
+    int height = 15;
+    std::vector<std::vector<std::string>> map;
+
     std::pair<int, int> getCenter() const;
 
     World();

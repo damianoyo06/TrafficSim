@@ -7,8 +7,8 @@ World::World() {
 }
 
 void World::initMap() {
-    map = std::vector<std::vector<char>>(height, 
-        std::vector<char>(width, 'E'));
+    map = std::vector<std::vector<std::string>>(height, 
+        std::vector<std::string>(width, "⬛️"));
 
         int midX = width/2;
         int midY = height/2;
@@ -20,34 +20,33 @@ void World::initMap() {
         int bottom = 3*height/4;
 
         for(int x = 1; x <width-1; x++){
-            map[midY][x] = '-';
+            map[midY][x] = "🟨";
         }
 
         for(int x=width/5; x<width/5*4; x++){
-            map[top][x] = '-';
-            map[bottom][x] = '-';
+            map[top][x] = "🟨";
+            map[bottom][x] = "🟨";
         }
 
       for(int y  = height/4; y<3*height/4; y++){
-            map[y][left] = '|';
-            map[y][right] = '|';
+            map[y][left] = "🟧";
+            map[y][right] = "🟧";
         }
 
 
         for(int y = 1; y < height-1; y++){
-            map[y][midX] = '|';
+            map[y][midX] = "🟧";
         }
 
-        map[midY][midX] = '+';
-        map[top][midX] = '+';
-        map[bottom][midX] = '+';
-        map[top][left] = '+';
-        map[top][right] = '+';
-        map[bottom][left] = '+';
-        map[bottom][right] = '+';
-        map[midY][left] = '+';
-        map[midY][right] = '+';
-
+        map[midY][midX] = "🟩";
+        map[top][midX] = "🟩";
+        map[bottom][midX] = "🟩";
+        map[top][left] = "🟩";
+        map[top][right] = "🟩";
+        map[bottom][left] = "🟩";
+        map[bottom][right] = "🟩";
+        map[midY][left] = "🟩";
+        map[midY][right] = "🟩";
        
 
 }
@@ -61,7 +60,11 @@ void World::printMap(const std::vector<Car>& cars) {
     auto render = map; //copy the map
 
     for(const auto& car : cars) {
-        render[car.getY()][car.getX()] = 'C';
+        render[car.getTargetY()][car.getTargetX()] = "🎯";
+    }
+
+    for(const auto& car : cars) {
+        render[car.getY()][car.getX()] = "🚗";
     }
 
     for(int y = 0; y<height; y++){
