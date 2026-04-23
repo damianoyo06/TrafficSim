@@ -1,5 +1,6 @@
 #include "World.h"
 #include "Car.h"
+#include "TrafficLight.h"
 #include <iostream>
 
 World::World() {
@@ -20,25 +21,26 @@ void World::initMap() {
         int bottom = 3*height/4;
 
         for(int x = 1; x <width-1; x++){
-            map[midY][x] = "🟨";
+            map[midY][x] = "🟩";
         }
 
         for(int x=width/5; x<width/5*4; x++){
-            map[top][x] = "🟨";
-            map[bottom][x] = "🟨";
+            map[top][x] = "🟩";
+            map[bottom][x] = "🟩";
         }
 
       for(int y  = height/4; y<3*height/4; y++){
-            map[y][left] = "🟧";
-            map[y][right] = "🟧";
+            map[y][left] = "🟩";
+            map[y][right] = "🟩";
         }
 
 
         for(int y = 1; y < height-1; y++){
-            map[y][midX] = "🟧";
+            map[y][midX] = "🟩";
         }
 
-        map[midY][midX] = "🟩";
+     //   map[midY][midX] = "🟩";
+        map[midY][midX] = "🚦";
         map[top][midX] = "🟩";
         map[bottom][midX] = "🟩";
         map[top][left] = "🟩";
@@ -47,6 +49,8 @@ void World::initMap() {
         map[bottom][right] = "🟩";
         map[midY][left] = "🟩";
         map[midY][right] = "🟩";
+
+        trafficLights[{midX, midY}] = TrafficLight(50); // switches every 5 ticks
        
 
 }
@@ -73,4 +77,12 @@ void World::printMap(const std::vector<Car>& cars) {
         }
         std::cout << std::endl;
     }
+
+    for(auto& [pos, light] : trafficLights) {
+        light.update(); //update the traffic light state
+        std::cout << "Traffic Light at (" << pos.x << ", " << pos.y << "): " 
+                  << (light.getState() == LightState::Green ? "Green" : "Red") 
+                  << std::endl;
+    }
 }
+

@@ -1,12 +1,23 @@
  #pragma once
  #include <vector>
  #include "Car.h"
+ #include "TrafficLight.h"
+ #include <map>
+
+struct Position{
+    int x, y;
+
+    bool operator<(const Position& other) const {
+        return std::tie(x, y) < std::tie(other.x, other.y);
+    }   
+};
 
 class World {
 public:
     int width = 20;
     int height = 15;
     std::vector<std::vector<std::string>> map;
+    std::map<Position, TrafficLight> trafficLights;
 
     std::pair<int, int> getCenter() const;
 
