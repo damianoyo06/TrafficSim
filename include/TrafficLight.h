@@ -1,8 +1,8 @@
 #pragma once
 
 enum class LightState {
-    Red,
-    Green
+    Green,
+    Red
 };
 
 class TrafficLight {

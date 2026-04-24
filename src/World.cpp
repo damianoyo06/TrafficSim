@@ -11,46 +11,92 @@ void World::initMap() {
     map = std::vector<std::vector<std::string>>(height, 
         std::vector<std::string>(width, "⬛️"));
 
+        //BLUE = NORTH
+        //GREEN = SOUTH
+        //RED = WEST
+        //YELLOW = EAST
+        
+        // 🟦 northbound
+        // 🟩 southbound
+        // 🟥 westbound
+        // 🟨 eastbound
+
+        //MOVEMENT ON THE LEFT HAND SIDE OF THE ROAD
+
         int midX = width/2;
         int midY = height/2;
 
         int left = width/5;
-        int right = width/5*4;
+        int right = (width * 4) / 5;;
 
         int top = height/4;
-        int bottom = 3*height/4;
+        int bottom = (height * 3) / 4;
 
-        for(int x = 1; x <width-1; x++){
-            map[midY][x] = "🟩";
-        }
+        // NORTH (blue)
+for(int y = 1; y < height-1; y++)
+{
+    map[y][midX-1] = "🟦";
+}
 
-        for(int x=width/5; x<width/5*4; x++){
-            map[top][x] = "🟩";
-            map[bottom][x] = "🟩";
-        }
-
-      for(int y  = height/4; y<3*height/4; y++){
-            map[y][left] = "🟩";
-            map[y][right] = "🟩";
-        }
+for(int y = top; y < bottom; y++)
+{
+    map[y][left-1]  = "🟦";
+    map[y][right-1] = "🟦";
+}
 
 
-        for(int y = 1; y < height-1; y++){
-            map[y][midX] = "🟩";
-        }
+// SOUTH (green)
+for(int y = 1; y < height-1; y++)
+{
+    map[y][midX] = "🟩";
+}
 
-     //   map[midY][midX] = "🟩";
-        map[midY][midX] = "🚦";
-        map[top][midX] = "🟩";
-        map[bottom][midX] = "🟩";
-        map[top][left] = "🟩";
-        map[top][right] = "🟩";
-        map[bottom][left] = "🟩";
-        map[bottom][right] = "🟩";
-        map[midY][left] = "🟩";
-        map[midY][right] = "🟩";
+for(int y = top; y < bottom; y++)
+{
+    map[y][left]  = "🟩";
+    map[y][right] = "🟩";
+}
 
-        trafficLights[{midX, midY}] = TrafficLight(50); // switches every 5 ticks
+
+// WEST (red) upper lane
+for(int x = 1; x < width-1; x++)
+{
+    map[midY-1][x] = "🟥";
+}
+
+for(int x = left; x < right; x++)
+{
+    map[top-1][x]    = "🟥";
+    map[bottom-1][x] = "🟥";
+}
+
+
+// EAST (yellow) lower lane
+for(int x = 1; x < width-1; x++)
+{
+    map[midY][x] = "🟨";
+}
+
+for(int x = left; x < right; x++)
+{
+    map[top][x]    = "🟨";
+    map[bottom][x] = "🟨";
+}
+
+    map[top][midX] = "🚦";
+    map[bottom][midX] = "🚦";
+
+    map[top][left] = "🚦";
+    map[top][right] = "🚦";
+
+    map[bottom][left] = "🚦";
+    map[bottom][right] = "🚦";
+
+    map[midY][left] = "🚦";
+    map[midY][right] = "🚦";
+
+    
+    trafficLights[{midX, midY}] = TrafficLight(50); // switches every 5 ticks
        
 
 }
