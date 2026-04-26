@@ -18,6 +18,9 @@ public:
     int height = 15;
     std::vector<std::vector<std::string>> map;
     std::map<Position, TrafficLight> trafficLights;
+    int targetX = width/2, targetY = height/2;
+
+    void respawnTarget();
 
     std::pair<int, int> getCenter() const;
 

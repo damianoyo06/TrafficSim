@@ -1,15 +1,15 @@
  #pragma once
+ #include <vector>
 
 class World;
 class Car {
 public:
     Car(int StartX, int StartY);
-    void update(const World& world);
+    void update(World& world, const std::vector<Car>& cars);
 
     int getX() const;
     int getY() const;
-    int getTargetX() const;
-    int getTargetY() const;
+
 private:
     int x, y;
     int dx, dy;

@@ -10,6 +10,7 @@ void Simulation::run()
     // create cars before loop
     auto [x, y] = world.getCenter();
     cars.emplace_back(x, y);
+    cars.emplace_back(5, 7);
 
    
     while (true)
@@ -17,7 +18,7 @@ void Simulation::run()
         // Update cars
         for (auto &car : cars)
         {
-            car.update(world);
+            car.update(world, cars);
         }
         // Render
         world.printMap(cars);
