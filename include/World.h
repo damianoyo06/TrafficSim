@@ -2,6 +2,7 @@
  #include <vector>
  #include "Car.h"
  #include "TrafficLight.h"
+ #include "Direction.h"
  #include <map>
 
 struct Position{
@@ -12,10 +13,19 @@ struct Position{
     }   
 };
 
+enum TileType{
+    Road,
+    Junction
+};
+
 class World {
 public:
-    int width = 20;
-    int height = 15;
+    static constexpr int width = 20;
+    static constexpr int height = 20;
+
+    // Direction roadDirection[height][width];
+    // std::vector<std::vector<Direction>> roadDirection;
+    std::vector<std::vector<std::vector<Direction>>> allowedMoves;
     std::vector<std::vector<std::string>> map;
     std::map<Position, TrafficLight> trafficLights;
     int targetX = width/2, targetY = height/2;
@@ -23,6 +33,7 @@ public:
     void respawnTarget();
 
     std::pair<int, int> getCenter() const;
+    
 
     World();
     void initMap();

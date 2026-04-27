@@ -1,4 +1,7 @@
 #include "Direction.h"
 
-Direction d = Direction::North;
-
+class Car
+{
+    public:
+        Direction dir;
+};

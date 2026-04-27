@@ -1,106 +1,85 @@
 #include "Car.h"
 #include "World.h"
+#include "Direction.h"
 #include <vector>
 #include <iostream>
 #include <climits>
 
+Direction opposite(Direction d) {
+    switch(d) {
+        case Direction::Right: return Direction::Left;
+        case Direction::Left: return Direction::Right;
+        case Direction::Up: return Direction::Down;
+        case Direction::Down: return Direction::Up;
+    }
+    return d;
+}
+
 Car::Car(int startX, int startY)
-    : x(startX), y(startY), dx(1), dy(0)
+    : x(startX), y(startY), dir(Direction::Left)
 {
 }
 
 void Car::update(World& world, const std::vector<Car>& cars)
 {
-    int nextX = x + dx;
-    int nextY = y + dy;
+    
+    int nextX = x;
+    int nextY = y;
 
-    // Prevent out-of-bounds crash
-    if (nextX < 0 || nextX >= world.width ||
-        nextY < 0 || nextY >= world.height)
+    switch(dir)
     {
-        return;
+        case Direction::Right: nextX++; break;
+        case Direction::Left:  nextX--; break;
+        case Direction::Down:  nextY++; break;
+        case Direction::Up:    nextY--; break;
     }
 
     Position nextPos{nextX, nextY};
 
-    // Traffic light check
-    if (world.trafficLights.count(nextPos))
+    if(nextX < 0 || nextX >= world.width ||
+       nextY < 0 || nextY >= world.height)
+        return;
+
+    for(const auto& car : cars)
     {
-        if (world.trafficLights.at(nextPos).getState() == LightState::Red)
-        {
+        if(car.getX()==nextX && car.getY()==nextY)
             return;
-        }
     }
 
-    std::string nextTile = world.map[nextY][nextX];
-
-    int prevX = x;
-    int prevY = y;
-
-    for(const auto& car:cars){
-        if(car.getX() == nextX && car.getY() == nextY){
-            return; //collision with another car
-        }
-    }
-
-    // Move only on road
-    if (nextTile == "🟩" || nextTile == "🚦")
-    {
-        x = nextX;
-        y = nextY;
-
-        int bestDx = dx;
-        int bestDy = dy;
-        int bestDistance = INT_MAX;
-
-        const int directions[4][2] =
-        {
-            {1,0},
-            {-1,0},
-            {0,1},
-            {0,-1}
-        };
-
-        for (auto& dir : directions)
-        {
-            int nx = x + dir[0];
-            int ny = y + dir[1];
-
-            // Bounds check
-            if (nx < 0 || nx >= world.width ||
-                ny < 0 || ny >= world.height)
-            {
-                continue;
+     if(world.trafficLights.count(nextPos) &&
+               world.trafficLights.at(nextPos).getState() == LightState::Red) {
+                return;
             }
+    if(world.map[nextY][nextX] == "🟩" ||
+       world.map[nextY][nextX] == "🚦")
+    {
+        if(world.map[nextY][nextX] == "🚦") {
+           
+            auto options = world.allowedMoves[nextY][nextX];
 
-            std::string tile = world.map[ny][nx];
+            std::vector<Direction> filtered;
 
-            if (tile == "🟩" || tile == "🚦")
+            for(auto d : options)
             {
-                // Don't instantly reverse
-                if (nx == prevX && ny == prevY)
-                    continue;
-
-                int distance =
-                    (nx - world.targetX)*(nx - world.targetX) +
-                    (ny - world.targetY)*(ny - world.targetY);
-
-                if (distance < bestDistance)
-                {
-                    bestDistance = distance;
-                    bestDx = dir[0];
-                    bestDy = dir[1];
-                }
+                if(d != opposite(dir))
+                    filtered.push_back(d);
             }
-        }
+            if(!filtered.empty())
+            {
+                dir = filtered[rand() % filtered.size()];
+            }
+           
 
-        dx = bestDx;
-        dy = bestDy;
+            dir = options[rand() % options.size()];
+            x = nextX;
+            y = nextY;
+        } else {
+            x = nextX;
+            y = nextY;
+        }
     }
 
-    // Reached target -> respawn one shared target
-    if (x == world.targetX && y == world.targetY)
-    {
+    if(x == world.targetX && y == world.targetY) {
         world.respawnTarget();
     }
 }

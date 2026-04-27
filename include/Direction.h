@@ -1,10 +1,9 @@
 #pragma once
 
-enum Direction {
-    North,
-    South,
-    East,
-    West
+enum class Direction {
+    Up,
+    Down,
+    Left,
+    Right
 };
-
 
