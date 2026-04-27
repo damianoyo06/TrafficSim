@@ -16,7 +16,7 @@ Direction opposite(Direction d) {
 }
 
 Car::Car(int startX, int startY)
-    : x(startX), y(startY), dir(Direction::Left)
+    : x(startX), y(startY), dir(Direction::Right)
 {
 }
 

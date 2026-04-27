@@ -23,8 +23,6 @@ public:
     static constexpr int width = 20;
     static constexpr int height = 20;
 
-    // Direction roadDirection[height][width];
-    // std::vector<std::vector<Direction>> roadDirection;
     std::vector<std::vector<std::vector<Direction>>> allowedMoves;
     std::vector<std::vector<std::string>> map;
     std::map<Position, TrafficLight> trafficLights;

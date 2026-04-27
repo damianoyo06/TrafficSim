@@ -14,7 +14,6 @@ public:
 
 private:
     int x, y;
- //   int dx, dy;
 
     int targetX, targetY;
 };

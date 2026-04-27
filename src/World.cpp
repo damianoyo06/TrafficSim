@@ -3,6 +3,7 @@
 #include "Direction.h"
 #include "TrafficLight.h"
 #include <iostream>
+#include <vector>
 
 World::World()
     : allowedMoves(height, std::vector<std::vector<Direction>>(width, {Direction::Up}))
@@ -10,6 +11,12 @@ World::World()
     initMap();
 }
 
+int getTrafficLightDelay(int x, int y, int midX, int midY){
+    if(x == midX && y == midY){
+        return 50; // longer delay for the central traffic light
+    }
+    return 20; // default delay for other traffic lights
+}
 
 
 void World::initMap() {
@@ -23,6 +30,10 @@ void World::initMap() {
 
         int top = height/4;
         int bottom = 3*height/4;
+
+        // Define traffic light positions
+        std::vector<int> trafficLightPositionsX = {midX, left, right};
+        std::vector<int> trafficLightPositionsY = {midY, top, bottom};
 
         //middle horizontal road
         for(int x = left; x <right; x++){
@@ -72,11 +83,17 @@ void World::initMap() {
         map[midY][right] = "🚦";
         allowedMoves[midY][right] = {Direction::Down};
 
+        for(size_t i = 0; i < trafficLightPositionsX.size(); ++i) {
+            for(size_t j = 0; j < trafficLightPositionsY.size(); ++j) {
+              
+                int delay = getTrafficLightDelay(trafficLightPositionsX[i], trafficLightPositionsY[j], midX, midY);
+                trafficLights[{trafficLightPositionsX[i], trafficLightPositionsY[j]}] = TrafficLight(delay);
+            }
+        }
+
+
         trafficLights[{midX, midY}] = TrafficLight(50); // switches every 5 ticks
        
-        // Set allowed moves for junction
-       // allowedMoves[midY][midX] = {Direction::Up, Direction::Down, Direction::Left, Direction::Right};
-
 }
 
  std::pair<int, int> World::getCenter() const {
@@ -122,4 +139,6 @@ void World::printMap(const std::vector<Car>& cars) {
                   << std::endl;
     }
 }
+
+
 
